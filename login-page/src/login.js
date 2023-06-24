@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import {app} from '.firebase';
+import './login.css';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // Source: https://firebase.google.com/docs/auth/web/start
@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='login-container'>
       <h1>Login</h1>
       {error && <p>{error}</p>}
       <form onSubmit={handleLogin}>
