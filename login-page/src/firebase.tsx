@@ -2,6 +2,7 @@ import {initializeApp} from 'firebase/app';
 // import { getAnalytics } from "firebase/analytics";
 import 'firebase/auth';
 import { Auth, getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 import { useMemo } from 'react';
 
 const firebaseConfig = {
@@ -12,13 +13,15 @@ const firebaseConfig = {
   messagingSenderId: '794518607156',
   appId: '1:794518607156:web:5a1406eef0c4e626e3c161',
   measurementId: 'G-8YFG5152S1',
+  databaseURL: 'https://pocket-money-watch-default-rtdb.europe-west1.firebasedatabase.app',
 };
 
 let auth: Auth;
 
 export const useFirebaseAuth = () => {
-  useMemo(() => initializeApp(firebaseConfig), []);
+  const app = useMemo(() => initializeApp(firebaseConfig), []);
   auth = useMemo(() => getAuth(), []);
 
-  return auth;
+  const db = useMemo(() => getDatabase(app), [app]);
+  return {auth, db};
 }
