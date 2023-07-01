@@ -1,7 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import './login.css';
-import {getFirebaseAuth} from './firebase';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useFirebaseAuth } from '../firebase';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Source: https://firebase.google.com/docs/auth/web/start
 
@@ -9,6 +11,8 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const auth = useFirebaseAuth();
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -20,15 +24,13 @@ function Login() {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const auth = getFirebaseAuth();
 
     try {
       signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         // Signed in
-        const user = userCredential.user;
         alert('login scceuss!');
-        console.log(user);
+        navigate('/main');
       })
       .catch((error) => {
         alert('login failed');

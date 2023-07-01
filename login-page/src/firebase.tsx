@@ -1,7 +1,8 @@
-import {FirebaseApp, initializeApp} from 'firebase/app';
+import {initializeApp} from 'firebase/app';
 // import { getAnalytics } from "firebase/analytics";
 import 'firebase/auth';
 import { Auth, getAuth } from 'firebase/auth';
+import { useMemo } from 'react';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDGt9-p4cd3oZqRadPSMhDQtTvLHaa8FV0',
@@ -15,13 +16,9 @@ const firebaseConfig = {
 
 let auth: Auth;
 
-export const getFirebaseAuth = () => {
-  if (auth) {
-    return auth;
-  }
-
-  initializeApp(firebaseConfig);
-  auth = getAuth();
+export const useFirebaseAuth = () => {
+  useMemo(() => initializeApp(firebaseConfig), []);
+  auth = useMemo(() => getAuth(), []);
 
   return auth;
 }
