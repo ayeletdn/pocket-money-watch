@@ -24,6 +24,6 @@ export default function Main() {
     return (<div>You must login<br/><button onClick={goToLogin}>Go To Login</button></div>);
   }
 
-  return (<div><p>Welcome to the app, {user?.displayName ?? user?.email}</p>
+  return (<div><p>Welcome to the app, {user.displayName ?? user.email}</p>
   <p><button onClick={onLogout}>Logout</button></p></div>);
 }
