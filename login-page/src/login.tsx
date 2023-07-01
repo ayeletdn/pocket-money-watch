@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './login.css';
+import {getFirebaseAuth} from './firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // Source: https://firebase.google.com/docs/auth/web/start
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const auth = getAuth();
+    const auth = getFirebaseAuth();
 
     try {
       signInWithEmailAndPassword(auth, email, password)
@@ -39,7 +40,14 @@ const Login = () => {
 
 
     } catch (error) {
-      setError(error.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else if (typeof error === 'string') {
+        setError(error)
+      } else {
+        setError('Unexpected error, see console for error');
+        console.log({error});
+      }
     }
   };
 

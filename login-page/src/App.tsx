@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './login';
 
-const App = () => {
+export default function App() {
   return (
     <Router>
       <Routes>
@@ -11,5 +11,3 @@ const App = () => {
     </Router>
   );
 };
-
-export default App;
