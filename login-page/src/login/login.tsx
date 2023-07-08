@@ -29,7 +29,6 @@ function Login() {
       signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         // Signed in
-        alert('login scceuss!');
         navigate('/main');
       })
       .catch((error) => {

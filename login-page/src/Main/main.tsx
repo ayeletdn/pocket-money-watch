@@ -1,15 +1,25 @@
 import React, { useCallback, useState } from "react";
-import { User, signOut } from "firebase/auth";
+import { onAuthStateChanged, User, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import useOnAuthStateChange from "../useOnAuthStateChange";
 import { useFirebaseAuth } from "../firebase";
 import UserDetails from "../User/user";
 
 export default function Main() {
   const [user, setUser] = useState<User>();
+  const [isFetchingUser, setIsFetcingUser] = useState(true);
   const navigate = useNavigate();
-  useOnAuthStateChange(setUser);
   const {auth} = useFirebaseAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    setIsFetcingUser(true);
+    if (user) {
+      setUser(user);
+      setIsFetcingUser(false);
+    } else {
+      setUser(undefined);
+      setIsFetcingUser(false);
+    }
+  });
 
   const onLogout = useCallback(() => {
     signOut(auth).then(() => {
@@ -17,12 +27,13 @@ export default function Main() {
     })
   }, [auth, navigate]);
 
-  const goToLogin = useCallback(() => {
-    navigate('/');
-  }, [navigate]);
+  if (isFetchingUser) {
+    return (<div>Loading data...</div>);
+  }
 
-  if (!user) {
-    return (<div>You must login<br/><button onClick={goToLogin}>Go To Login</button></div>);
+  if (user === undefined) {
+    navigate('/');
+    return (<div >Redirecting to login page..</div>)
   }
 
   return (<div><p>Welcome to the app, {user.displayName ?? user.email}</p>
