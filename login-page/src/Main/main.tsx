@@ -16,8 +16,7 @@ export default function Main() {
       setUser(user);
       setIsFetcingUser(false);
     } else {
-      setUser(undefined);
-      setIsFetcingUser(false);
+      navigate('/');
     }
   });
 
@@ -32,7 +31,6 @@ export default function Main() {
   }
 
   if (user === undefined) {
-    navigate('/');
     return (<div >Redirecting to login page..</div>)
   }
 
