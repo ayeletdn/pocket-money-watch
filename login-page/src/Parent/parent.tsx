@@ -14,7 +14,6 @@ export default function Parent({uid, dependents}: Props) {
   <h2>I have {children.length} children</h2>
   {
     <ul>
-      {/* {children.map(dep => <li key={dep}>{dep}</li>)} */}
       {children.map(dep => <li key={dep}><Child uid={dep} /></li>)}
     </ul>
   }</div>);
