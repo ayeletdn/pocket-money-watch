@@ -34,7 +34,13 @@ export default function Main() {
     return (<div >Redirecting to login page..</div>)
   }
 
-  return (<div><p>Welcome to the app, {user.displayName ?? user.email}</p>
-  <UserDetails uid={user.uid} />
-  <p><button onClick={onLogout}>Logout</button></p></div>);
+  return (
+    <div>
+      <p>Welcome to the app, {user.displayName ?? user.email}</p>
+      <UserDetails uid={user.uid} />
+      <p>
+        <button onClick={onLogout}>Logout</button>
+      </p>
+      {/* <TestQuery /> */}
+    </div>);
 }
